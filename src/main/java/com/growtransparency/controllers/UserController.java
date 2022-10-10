@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -24,7 +26,7 @@ public class UserController {
   }
 
   @PostMapping("/register")
-  public ResponseEntity<ReturnCreatedUserDTO> registerUser(@RequestBody CreateUserDTO dto) {
+  public ResponseEntity<ReturnCreatedUserDTO> registerUser(@Valid @RequestBody CreateUserDTO dto) {
     User user = userRepository.save(dto.toEntity());
     return ResponseEntity.ok(new ReturnCreatedUserDTO(user));
   }

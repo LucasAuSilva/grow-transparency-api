@@ -2,9 +2,20 @@ package com.growtransparency.dtos;
 
 import com.growtransparency.models.User;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class CreateUserDTO {
+  @NotBlank(message = "É necessário inserir o nome")
   private String name;
+
+  @NotBlank(message = "É necessário inserir o e-mail")
+  @Email(message = "É necessário informar um e-mail válido")
   private String email;
+
+  @NotBlank(message = "É necessário inserir a senha")
+  @Size(min = 8, message = "A senha deverá conter no mínimo 8 caracteres")
   private String password;
 
   public CreateUserDTO() {
