@@ -10,6 +10,8 @@ public class CreateUserDTO {
   @NotBlank(message = "É necessário inserir o nome")
   private String name;
 
+  @NotBlank(message = "É necessário inserir o sobrenome")
+  private String lastName;
   @NotBlank(message = "É necessário inserir o e-mail")
   @Email(message = "É necessário informar um e-mail válido")
   private String email;
@@ -29,6 +31,15 @@ public class CreateUserDTO {
     this.name = name;
   }
 
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
   public String getEmail() {
     return email;
   }
@@ -46,6 +57,6 @@ public class CreateUserDTO {
   }
 
   public User toEntity() {
-    return new User(getName(), getEmail(), getPassword());
+    return new User(getName(), getLastName(), getEmail(), getPassword());
   }
 }

@@ -12,6 +12,9 @@ public class User {
   @Column
   private String name;
 
+  @Column
+  private String lastName;
+ 
   @Column(unique = true)
   private String email;
 
@@ -22,8 +25,9 @@ public class User {
   }
 
   // TODO: encriptar senha do usuário
-  public User(String name, String email, String password) {
+  public User(String name, String lastName, String email, String password) {
     this.name = name;
+    this.lastName = lastName;
     this.email = email;
     this.password = password;
   }
@@ -42,6 +46,14 @@ public class User {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
   }
 
   public String getEmail() {
