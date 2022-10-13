@@ -12,7 +12,6 @@ public class CreateUserDTO {
 
   @NotBlank(message = "É necessário inserir o sobrenome")
   private String lastName;
-
   @NotBlank(message = "É necessário inserir o e-mail")
   @Email(message = "É necessário informar um e-mail válido")
   private String email;
@@ -31,6 +30,7 @@ public class CreateUserDTO {
   public void setName(String name) {
     this.name = name;
   }
+
 
   public String getLastName() {
     return lastName;

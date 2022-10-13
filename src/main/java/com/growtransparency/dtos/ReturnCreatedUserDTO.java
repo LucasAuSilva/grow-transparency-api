@@ -4,7 +4,9 @@ import com.growtransparency.models.User;
 
 public class ReturnCreatedUserDTO {
   private String name;
+
   private String lastName;
+  
   private String email;
 
   public ReturnCreatedUserDTO(User user) {

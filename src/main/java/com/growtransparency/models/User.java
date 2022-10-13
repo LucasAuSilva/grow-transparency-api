@@ -14,7 +14,7 @@ public class User {
 
   @Column
   private String lastName;
-
+ 
   @Column(unique = true)
   private String email;
 
