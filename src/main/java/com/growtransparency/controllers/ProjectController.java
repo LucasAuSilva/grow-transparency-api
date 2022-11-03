@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/project")
 @SecurityRequirement(name = "bearerAuth")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class ProjectController {
 
   private final ProjectRepository projectRepository;
