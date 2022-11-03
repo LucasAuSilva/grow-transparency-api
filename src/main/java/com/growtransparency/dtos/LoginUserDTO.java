@@ -1,5 +1,7 @@
 package com.growtransparency.dtos;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 public class LoginUserDTO {
   private String email;
   private String password;
@@ -21,5 +23,9 @@ public class LoginUserDTO {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public UsernamePasswordAuthenticationToken convert() {
+    return new UsernamePasswordAuthenticationToken(getEmail(), getPassword());
   }
 }

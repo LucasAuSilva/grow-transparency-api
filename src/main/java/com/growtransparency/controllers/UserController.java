@@ -5,13 +5,13 @@ import com.growtransparency.dtos.LoginUserDTO;
 import com.growtransparency.dtos.ReturnCreatedUserDTO;
 import com.growtransparency.dtos.ReturnLoginUserDto;
 import com.growtransparency.models.User;
+import com.growtransparency.repositories.RoleRepository;
 import com.growtransparency.repositories.UserRepository;
+import com.growtransparency.services.TokenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -20,9 +20,15 @@ import javax.validation.Valid;
 public class UserController {
 
   private final UserRepository userRepository;
+  private final RoleRepository roleRepository;
+  private final AuthenticationManager authenticationManager;
+  private final TokenService tokenService;
 
-  public UserController(UserRepository userRepository) {
+  public UserController(UserRepository userRepository, RoleRepository roleRepository, AuthenticationManager authenticationManager, TokenService tokenService) {
     this.userRepository = userRepository;
+    this.roleRepository = roleRepository;
+    this.authenticationManager = authenticationManager;
+    this.tokenService = tokenService;
   }
 
   @PostMapping("/register")
@@ -31,17 +37,37 @@ public class UserController {
     return ResponseEntity.ok(new ReturnCreatedUserDTO(user));
   }
 
-  // TODO: configurar token de autenticação de senha
   @PostMapping("/login")
   public ResponseEntity<ReturnLoginUserDto> loginUser(@RequestBody LoginUserDTO dto) {
     var optional = userRepository.findByEmail(dto.getEmail());
 
     if (optional.isPresent()) {
-      if (optional.get().getPassword().equals(dto.getPassword())) {
-        return ResponseEntity.ok(new ReturnLoginUserDto(true));
-      }
+      var loginData = dto.convert();
+      var authentication = authenticationManager.authenticate(loginData);
+      var token = tokenService.generateToken(authentication);
+
+      return ResponseEntity.ok(new ReturnLoginUserDto(token, true));
     }
 
-    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ReturnLoginUserDto(false));
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ReturnLoginUserDto("", false));
+  }
+
+  @PutMapping("/admin/{id}")
+  public ResponseEntity<?> nominateAdmin(@PathVariable Long id) {
+    var optional = userRepository.findById(id);
+    var rolesOptional = roleRepository.findById(1L);
+
+    if (optional.isPresent()) {
+      if (optional.get().getAuthorities().contains(rolesOptional.get())) {
+        return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).build();
+      }
+
+      optional.get().addRole(rolesOptional.get());
+      userRepository.save(optional.get());
+
+      return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
 }
