@@ -8,9 +8,7 @@ import com.growtransparency.models.User;
 import com.growtransparency.repositories.RoleRepository;
 import com.growtransparency.repositories.UserRepository;
 import com.growtransparency.services.TokenService;
-import com.growtransparency.settings.errors.ResponseErrorValidation;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -26,8 +24,8 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/user")
-@CrossOrigin(origins = "*")
 public class UserController {
 
   private final UserRepository userRepository;

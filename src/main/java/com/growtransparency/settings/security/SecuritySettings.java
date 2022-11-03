@@ -11,12 +11,20 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -36,7 +44,7 @@ public class SecuritySettings {
   public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
     var authFilter = new AuthenticationFilter(tokenService, userRepository);
 
-    return httpSecurity.authorizeRequests()
+    return httpSecurity.cors().and().authorizeRequests()
             .antMatchers(HttpMethod.PUT, "/user/admin").hasRole("ADMIN")
             .antMatchers(HttpMethod.POST, "/user/register").permitAll()  // permit all POST requests in /user/register
             .antMatchers(HttpMethod.POST, "/user/login").permitAll()     // permit all POST requests in /user/login

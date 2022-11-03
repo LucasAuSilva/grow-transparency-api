@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/project")
 @SecurityRequirement(name = "bearerAuth")
-@CrossOrigin(origins = "*")
 public class ProjectController {
 
   private final ProjectRepository projectRepository;
