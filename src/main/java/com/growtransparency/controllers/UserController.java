@@ -1,8 +1,10 @@
 package com.growtransparency.controllers;
 
-import com.growtransparency.dtos.*;
+import com.growtransparency.dtos.CreateUserDTO;
+import com.growtransparency.dtos.LoginUserDTO;
+import com.growtransparency.dtos.ReturnCreatedUserDTO;
+import com.growtransparency.dtos.ReturnLoginUserDto;
 import com.growtransparency.models.User;
-import com.growtransparency.models.Roles;
 import com.growtransparency.repositories.RoleRepository;
 import com.growtransparency.repositories.UserRepository;
 import com.growtransparency.services.TokenService;
@@ -11,11 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
-import javax.management.relation.Role;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -54,5 +52,22 @@ public class UserController {
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ReturnLoginUserDto("", false));
   }
 
-  // TODO atribuição de cargo admin
+  @PutMapping("/admin/{id}")
+  public ResponseEntity<?> nominateAdmin(@PathVariable Long id) {
+    var optional = userRepository.findById(id);
+    var rolesOptional = roleRepository.findById(1L);
+
+    if (optional.isPresent()) {
+      if (optional.get().getAuthorities().contains(rolesOptional.get())) {
+        return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).build();
+      }
+
+      optional.get().addRole(rolesOptional.get());
+      userRepository.save(optional.get());
+
+      return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+  }
 }

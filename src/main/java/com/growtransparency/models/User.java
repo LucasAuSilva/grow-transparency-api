@@ -80,6 +80,10 @@ public class User implements UserDetails {
     this.password = password;
   }
 
+  public void addRole(Roles roles) {
+    this.roles.add(roles);
+  }
+
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return this.roles;

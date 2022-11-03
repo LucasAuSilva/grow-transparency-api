@@ -37,9 +37,9 @@ public class SecuritySettings {
     var authFilter = new AuthenticationFilter(tokenService, userRepository);
 
     return httpSecurity.authorizeRequests()
+            .antMatchers(HttpMethod.PUT, "/user/admin").hasRole("ADMIN")
             .antMatchers(HttpMethod.POST, "/user/register").permitAll()  // permit all POST requests in /user/register
             .antMatchers(HttpMethod.POST, "/user/login").permitAll()     // permit all POST requests in /user/login
-            .antMatchers(HttpMethod.PUT, "/user/admin").hasRole("ADMIN")
             .antMatchers(HttpMethod.POST, "/project").hasRole("ADMIN")   // permit POST requests in /projects if it has ADMIN role
             .anyRequest().authenticated()                                                 // permit any requests if its authenticated
             .and().csrf().disable()
