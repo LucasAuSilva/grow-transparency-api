@@ -19,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/organization")
 @SecurityRequirement(name = "bearerAuth")
+@CrossOrigin
 public class OrganizationController {
   private final OrganizationRepository organizationRepository;
 
