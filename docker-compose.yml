@@ -21,6 +21,7 @@ services:
       JDBC_DATABASE_URL: jdbc:postgresql://db:5432/growdev
       DATABASE_USERNAME: user
       DATABASE_PASSWORD: teste1234
+      PORT: 8080
     ports:
       - "8080:8080"
     restart: always
