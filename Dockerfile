@@ -11,4 +11,4 @@ COPY settings.gradle .
 RUN microdnf install findutils
 RUN ./gradlew build
 
-ENTRYPOINT ["./gradlew", "bootRun"]
+CMD ["./gradlew", "bootRun"]
