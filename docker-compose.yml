@@ -1,0 +1,33 @@
+services:
+  db:
+    container_name: db
+    image: postgres:14
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: teste1234
+      POSTGRES_USER: user
+      POSTGRES_DB: growdev
+    ports:
+      - "5432:5432"
+    restart: always
+    networks:
+      - growdev-network
+  app:
+    build: .
+    environment:
+      JWT_EXPIRATION: 180000000000
+      JWT_SECRET: akjasldaslnfafnkasjndf
+      JDBC_DATABASE_URL: jdbc:postgresql://db:5432/growdev
+      DATABASE_USERNAME: user
+      DATABASE_PASSWORD: teste1234
+    ports:
+      - "8080:8080"
+    restart: always
+    networks:
+      - growdev-network
+    depends_on:
+      - db
+networks:
+  growdev-network:
+    driver: bridge
