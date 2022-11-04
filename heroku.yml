@@ -1,5 +1,0 @@
-build:
-  docker:
-    web: Dockerfile
-  config:
-    JDBC_DATABASE_URL: $JDBC_DATABASE_URL
