@@ -70,9 +70,7 @@ public class UserController {
   }
 
   @PutMapping("/admin/{id}")
-  @SecurityRequirements(value = {
-    @SecurityRequirement(name = "authBearer")
-  })
+  @SecurityRequirement(name = "authBearer")
   @ApiResponses(value = {
     @ApiResponse(responseCode = "204", description = "User updated", content = @Content),
     @ApiResponse(responseCode = "418", description = "User already admin", content = @Content),
