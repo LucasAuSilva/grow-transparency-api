@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,7 +20,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -56,7 +54,7 @@ public class UserController {
     @ApiResponse(responseCode = "401", description = "Não autorizado", content = @Content),
   })
   public ResponseEntity<ReturnLoginUserDto> loginUser(@RequestBody LoginUserDTO dto) {
-    var optional = userRepository.findByEmail(dto.getEmail());
+    var optional = userRepository.findByEmail(dto.email());
 
     if (optional.isPresent()) {
       var loginData = dto.convert();
@@ -69,8 +67,8 @@ public class UserController {
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
   }
 
-  @PutMapping("/admin/{id}")
   @SecurityRequirement(name = "authBearer")
+  @PutMapping("/admin/{id}")
   @ApiResponses(value = {
     @ApiResponse(responseCode = "204", description = "User updated", content = @Content),
     @ApiResponse(responseCode = "418", description = "User already admin", content = @Content),
