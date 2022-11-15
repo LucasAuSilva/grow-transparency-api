@@ -46,4 +46,16 @@ public class TokenService {
 
     return Long.parseLong(claims.getIssuer());
   }
+
+  public Long getExpired(String token) {
+    var claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+
+    return claims.getExpiration().getTime();
+  }
+
+  public Long getIssued(String token) {
+    var claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+
+    return claims.getIssuedAt().getTime();
+  }
 }
