@@ -4,6 +4,7 @@ import com.growtransparency.repositories.UserRepository;
 import com.growtransparency.services.DetailService;
 import com.growtransparency.services.TokenService;
 import com.growtransparency.settings.filters.AuthenticationFilter;
+import com.growtransparency.settings.filters.CustomAccessDeniedHandler;
 import com.growtransparency.settings.filters.CustomAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -45,6 +47,7 @@ public class SecuritySettings {
             .antMatchers(HttpMethod.PUT, "/user/admin/**").hasRole("ADMIN")
             .anyRequest().authenticated()                                                 // permit any requests if its authenticated
             .and().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint())
+            .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler())
             .and().csrf().disable()
             .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -68,5 +71,10 @@ public class SecuritySettings {
   @Bean
   public AuthenticationEntryPoint authenticationEntryPoint() {
     return new CustomAuthenticationEntryPoint(tokenService);
+  }
+
+  @Bean
+  public AccessDeniedHandler accessDeniedHandler() {
+    return new CustomAccessDeniedHandler();
   }
 }
