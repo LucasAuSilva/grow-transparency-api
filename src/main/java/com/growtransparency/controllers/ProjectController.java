@@ -28,7 +28,8 @@ public class ProjectController {
   private final ProjectRepository projectRepository;
   private final ProjectService projectService;
 
-  public ProjectController(ProjectRepository projectRepository, ProjectService projectService) {
+  public ProjectController(ProjectRepository projectRepository,
+                           ProjectService projectService) {
     this.projectRepository = projectRepository;
     this.projectService = projectService;
   }
