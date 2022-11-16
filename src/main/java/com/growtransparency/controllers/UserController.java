@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -61,7 +62,8 @@ public class UserController {
       var authentication = authenticationManager.authenticate(loginData);
       var token = tokenService.generateToken(authentication);
 
-      return ResponseEntity.ok(new ReturnLoginUserDto(token, true));
+      var authorities = optional.get().getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+      return ResponseEntity.ok(new ReturnLoginUserDto(token, true, authorities));
     }
 
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

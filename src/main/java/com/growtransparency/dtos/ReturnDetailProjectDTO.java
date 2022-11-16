@@ -2,7 +2,8 @@ package com.growtransparency.dtos;
 
 import com.growtransparency.models.Project;
 
-public class ReturnCreatedProjectDTO {
+public class ReturnDetailProjectDTO {
+  private Long id;
   private String name;
   private String description;
   private Double cost;
@@ -11,7 +12,8 @@ public class ReturnCreatedProjectDTO {
   private Double score;
   private String link;
 
-  public ReturnCreatedProjectDTO(Project project) {
+  public ReturnDetailProjectDTO(Project project) {
+    this.id = project.getId();
     this.name = project.getName();
     this.description = project.getDescription();
     this.cost = project.getCost();
@@ -76,4 +78,8 @@ public class ReturnCreatedProjectDTO {
   public void setLink(String link) {
     this.link = link;
   }
+
+  public Long getId() { return id; }
+
+  public void setId(Long id) { this.id = id; }
 }
