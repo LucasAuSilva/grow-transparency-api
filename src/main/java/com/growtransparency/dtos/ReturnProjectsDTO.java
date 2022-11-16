@@ -11,7 +11,7 @@ public class ReturnProjectsDTO {
   private String description;
   private Double cost;
   private Integer totalTime;
-  private Integer status;
+  private StatusDTO status;
   private Double score;
   private String link;
 
@@ -21,7 +21,7 @@ public class ReturnProjectsDTO {
     this.description = project.getDescription();
     this.cost = project.getCost();
     this.totalTime = project.getTotalTime();
-    this.status = project.getStatus();
+    this.status = new StatusDTO(project.getStatus());
     this.score = project.getScore();
     this.link = project.getLink();
   }
@@ -62,11 +62,11 @@ public class ReturnProjectsDTO {
     this.totalTime = totalTime;
   }
 
-  public Integer getStatus() {
+  public StatusDTO getStatus() {
     return status;
   }
 
-  public void setStatus(Integer status) {
+  public void setStatus(StatusDTO status) {
     this.status = status;
   }
 

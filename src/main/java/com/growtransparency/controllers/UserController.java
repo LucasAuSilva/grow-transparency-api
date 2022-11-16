@@ -77,7 +77,7 @@ public class UserController {
     @ApiResponse(responseCode = "403", description = "User authenticated but not admin", content = @Content),
     @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
   })
-  public ResponseEntity<?> nominateAdmin(@PathVariable Long id) {
+  public ResponseEntity<Void> nominateAdmin(@PathVariable Long id) {
     var optional = userRepository.findById(id);
     var rolesOptional = roleRepository.findById(1L);
 
