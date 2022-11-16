@@ -54,7 +54,7 @@ public class UserController {
     @ApiResponse(responseCode = "200", description = "Login realizado com sucesso"),
     @ApiResponse(responseCode = "401", description = "Não autorizado", content = @Content),
   })
-  public ResponseEntity<ReturnLoginUserDto> loginUser(@RequestBody LoginUserDTO dto) {
+  public ResponseEntity<ReturnLoginUserDto> loginUser(@Valid @RequestBody LoginUserDTO dto) {
     var optional = userRepository.findByEmail(dto.email());
 
     if (optional.isPresent()) {
@@ -77,7 +77,7 @@ public class UserController {
     @ApiResponse(responseCode = "403", description = "User authenticated but not admin", content = @Content),
     @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
   })
-  public ResponseEntity<?> nominateAdmin(@PathVariable Long id) {
+  public ResponseEntity<Void> nominateAdmin(@PathVariable Long id) {
     var optional = userRepository.findById(id);
     var rolesOptional = roleRepository.findById(1L);
 

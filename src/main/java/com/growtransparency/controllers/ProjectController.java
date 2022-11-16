@@ -14,8 +14,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,9 +41,10 @@ public class ProjectController {
     @ApiResponse(responseCode = "200", description = "Project created"),
     @ApiResponse(responseCode = "403", description = "User authenticated but not authorized", content = @Content),
   })
-  public ResponseEntity<ReturnDetailProjectDTO> createProject(@Valid @RequestBody CreateProjectDTO dto) {
-    Project project = projectRepository.save(dto.toEntity());
-    return ResponseEntity.ok(new ReturnDetailProjectDTO(project));
+  public ResponseEntity<ReturnDetailProjectDTO> createProject(@RequestBody @Valid CreateProjectDTO dto, UriComponentsBuilder uriBuilder) {
+    var createdProject = projectService.createProject(dto);
+    URI uri = uriBuilder.path("/user/{id}").buildAndExpand(createdProject.getId()).toUri();
+    return ResponseEntity.created(uri).body(createdProject);
   }
 
   @GetMapping

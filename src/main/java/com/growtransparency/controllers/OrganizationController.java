@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class OrganizationController {
     @ApiResponse(responseCode = "200", description = "Organization created"),
     @ApiResponse(responseCode = "403", description = "User not authenticated", content = @Content),
   })
-  public ResponseEntity<ReturnCreatedOrganizationDTO> createOrganization(@RequestBody CreateOrganizationDTO dto) {
+  public ResponseEntity<ReturnCreatedOrganizationDTO> createOrganization(@Valid @RequestBody CreateOrganizationDTO dto) {
     Organization organization = organizationRepository.save(dto.toEntity());
     return ResponseEntity.ok(new ReturnCreatedOrganizationDTO(organization));
   }

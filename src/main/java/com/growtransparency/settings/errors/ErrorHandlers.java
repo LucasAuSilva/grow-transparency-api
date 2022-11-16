@@ -27,4 +27,18 @@ public class ErrorHandlers {
 
     return new ResponseError(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
   }
+
+  @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+  @ExceptionHandler(value = StatusNotFoundException.class)
+  public ResponseError handle(StatusNotFoundException exception) {
+
+    return new ResponseError(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
+  }
+
+  @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+  @ExceptionHandler(value = ProjectNotFoundException.class)
+  public ResponseError handle(ProjectNotFoundException exception) {
+
+    return new ResponseError(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
+  }
 }

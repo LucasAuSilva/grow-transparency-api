@@ -11,22 +11,23 @@ public class Project {
   @Column(name = "id", nullable = false)
   private Long id;
 
-  @Column
+  @Column(nullable = false)
   private String name;
 
   @Column
   private String description;
 
-  @Column
+  @Column(nullable = false)
   private Double cost;
 
-  @Column
+  @Column(nullable = false)
   private Integer totalTime;
 
-  @Column
-  private Integer status;
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "status_id", nullable = false)
+  private Status status;
 
-  @Column
+  @Column(nullable = false)
   private Double score;
 
   @Column
@@ -35,7 +36,7 @@ public class Project {
   public Project() {
   }
 
-  public Project(String name, String description, Double cost, Integer totalTime, Integer status, Double score, String link) {
+  public Project(String name, String description, Double cost, Integer totalTime, Status status, Double score, String link) {
     this.name = name;
     this.description = description;
     this.cost = cost;
@@ -85,14 +86,6 @@ public class Project {
     this.totalTime = totalTime;
   }
 
-  public Integer getStatus() {
-    return status;
-  }
-
-  public void setStatus(Integer status) {
-    this.status = status;
-  }
-
   public Double getScore() {
     return score;
   }
@@ -109,12 +102,20 @@ public class Project {
     this.link = link;
   }
 
-  public void updateFields(UpdateProjectDTO dto) {
+  public Status getStatus() {
+    return status;
+  }
+
+  public void setStatus(Status status) {
+    this.status = status;
+  }
+
+  public void updateFields(UpdateProjectDTO dto, Status status) {
     this.name = dto.name();
     this.description = dto.description();
     this.cost = dto.cost();
     this.totalTime = dto.totalTime();
-    this.status = dto.status();
+    this.status = status;
     this.score = dto.score();
     this.link = dto.link();
   }
