@@ -21,7 +21,8 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.12'
 	implementation 'org.springdoc:springdoc-openapi-security:1.6.12'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    implementation 'org.apache.commons:commons-csv:1.9.0'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
