@@ -11,22 +11,22 @@ public class Project {
   @Column(name = "id", nullable = false)
   private Long id;
 
-  @Column
+  @Column(nullable = false)
   private String name;
 
   @Column
   private String description;
 
-  @Column
+  @Column(nullable = false)
   private Double cost;
 
-  @Column
+  @Column(nullable = false)
   private Integer totalTime;
 
   @Column
   private Integer status;
 
-  @Column
+  @Column(nullable = false)
   private Double score;
 
   @Column
