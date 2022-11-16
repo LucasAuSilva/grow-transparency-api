@@ -3,15 +3,16 @@ package com.growtransparency.dtos;
 import com.growtransparency.models.Project;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public record UpdateProjectDTO(
-    @NotBlank String name,
-    String description,
-    Double cost,
-    Integer totalTime,
-    Integer status,
-    Double score,
-    String link) {
+        @NotBlank(message = "Nome é um campo obrigatório") String name,
+        String description,
+        @NotNull(message = "Custo é um campo obrigatório") Double cost,
+        @NotNull(message = "Tempo total é um campo obrigatório") Integer totalTime,
+        Integer status,
+        @NotNull(message = "Pontuação é um campo obrigatório") Double score,
+        String link) {
     public Project toEntity() {
         return new Project(name, description, cost, totalTime, status, score, link);
     }

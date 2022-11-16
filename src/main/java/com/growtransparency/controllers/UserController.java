@@ -54,7 +54,7 @@ public class UserController {
     @ApiResponse(responseCode = "200", description = "Login realizado com sucesso"),
     @ApiResponse(responseCode = "401", description = "Não autorizado", content = @Content),
   })
-  public ResponseEntity<ReturnLoginUserDto> loginUser(@RequestBody LoginUserDTO dto) {
+  public ResponseEntity<ReturnLoginUserDto> loginUser(@Valid @RequestBody LoginUserDTO dto) {
     var optional = userRepository.findByEmail(dto.email());
 
     if (optional.isPresent()) {
