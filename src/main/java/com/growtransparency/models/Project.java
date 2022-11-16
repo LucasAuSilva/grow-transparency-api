@@ -1,5 +1,7 @@
 package com.growtransparency.models;
 
+import com.growtransparency.dtos.UpdateProjectDTO;
+
 import javax.persistence.*;
 
 @Entity(name = "projects")
@@ -105,5 +107,15 @@ public class Project {
 
   public void setLink(String link) {
     this.link = link;
+  }
+
+  public void updateFields(UpdateProjectDTO dto) {
+    this.name = dto.name();
+    this.description = dto.description();
+    this.cost = dto.cost();
+    this.totalTime = dto.totalTime();
+    this.status = dto.status();
+    this.score = dto.score();
+    this.link = dto.link();
   }
 }
