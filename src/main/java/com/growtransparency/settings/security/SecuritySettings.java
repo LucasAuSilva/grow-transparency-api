@@ -38,13 +38,15 @@ public class SecuritySettings {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
     var authFilter = new AuthenticationFilter(tokenService, userRepository);
+    var roleAdmin = "ADMIN";
 
     return httpSecurity.cors().and().authorizeRequests()
             .antMatchers(HttpMethod.POST, "/user/register").permitAll()  // permit all POST requests in /user/register
             .antMatchers(HttpMethod.POST, "/user/login").permitAll()     // permit all POST requests in /user/login
             .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-            .antMatchers(HttpMethod.POST, "/project").hasRole("ADMIN")   // permit POST requests in /projects if it has ADMIN role
-            .antMatchers(HttpMethod.PUT, "/user/admin/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.POST, "/project").hasRole(roleAdmin)   // permit POST requests in /projects if it has ADMIN role
+            .antMatchers(HttpMethod.GET, "/user/all").hasRole(roleAdmin)
+            .antMatchers(HttpMethod.PUT, "/user/admin/**").hasRole(roleAdmin)
             .anyRequest().authenticated()                                                 // permit any requests if its authenticated
             .and().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint())
             .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler())

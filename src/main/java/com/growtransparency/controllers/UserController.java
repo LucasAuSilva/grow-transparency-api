@@ -1,9 +1,6 @@
 package com.growtransparency.controllers;
 
-import com.growtransparency.dtos.CreateUserDTO;
-import com.growtransparency.dtos.LoginUserDTO;
-import com.growtransparency.dtos.ReturnCreatedUserDTO;
-import com.growtransparency.dtos.ReturnLoginUserDto;
+import com.growtransparency.dtos.*;
 import com.growtransparency.models.User;
 import com.growtransparency.repositories.RoleRepository;
 import com.growtransparency.repositories.UserRepository;
@@ -21,6 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -37,6 +35,12 @@ public class UserController {
     this.roleRepository = roleRepository;
     this.authenticationManager = authenticationManager;
     this.tokenService = tokenService;
+  }
+
+  @GetMapping("/all")
+  public ResponseEntity<List<ReturnAllUsersDTO>> getAllUsers() {
+    List<User> users = userRepository.findAll();
+    return ResponseEntity.ok(ReturnAllUsersDTO.convert(users));
   }
 
   @PostMapping("/register")

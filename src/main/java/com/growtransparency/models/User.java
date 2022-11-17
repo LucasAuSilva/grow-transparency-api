@@ -6,6 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Entity(name = "users")
@@ -82,6 +83,10 @@ public class User implements UserDetails {
 
   public void addRole(Roles roles) {
     this.roles.add(roles);
+  }
+
+  public List<String> getRoles() {
+    return roles.stream().map(Roles::getName).toList();
   }
 
   @Override
