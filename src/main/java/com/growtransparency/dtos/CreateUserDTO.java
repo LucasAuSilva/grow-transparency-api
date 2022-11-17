@@ -1,6 +1,7 @@
 package com.growtransparency.dtos;
 
 import com.growtransparency.models.User;
+import com.growtransparency.settings.validations.notations.EmailEquals;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -10,7 +11,8 @@ public record CreateUserDTO(
         @NotBlank(message = "É necessário inserir o nome") String name,
         @NotBlank(message = "É necessário inserir o sobrenome") String lastName,
         @NotBlank(message = "É necessário inserir o e-mail")
-        @Email(message = "E-mail informado não é válido") String email,
+        @Email(message = "E-mail informado não é válido")
+        @EmailEquals String email,
         @NotBlank(message = "É necessário inserir a senha")
         @Size(min = 8, message = "A senha deverá conter no mínimo 8 caracteres") String password) {
   public User toEntity() {

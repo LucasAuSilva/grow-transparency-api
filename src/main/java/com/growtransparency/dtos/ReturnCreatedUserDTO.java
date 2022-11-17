@@ -3,6 +3,7 @@ package com.growtransparency.dtos;
 import com.growtransparency.models.User;
 
 public class ReturnCreatedUserDTO {
+  private Long id;
   private String name;
 
   private String lastName;
@@ -10,6 +11,7 @@ public class ReturnCreatedUserDTO {
   private String email;
 
   public ReturnCreatedUserDTO(User user) {
+    this.id = user.getId();
     this.name = user.getName();
     this.lastName = user.getLastName();
     this.email = user.getEmail();
@@ -38,4 +40,8 @@ public class ReturnCreatedUserDTO {
   public void setEmail(String email) {
     this.email = email;
   }
+
+  public Long getId() { return id; }
+
+  public void setId(Long id) { this.id = id; }
 }
