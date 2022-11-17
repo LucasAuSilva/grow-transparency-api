@@ -47,6 +47,7 @@ public class SecuritySettings {
             .antMatchers(HttpMethod.POST, "/project").hasRole(roleAdmin)   // permit POST requests in /projects if it has ADMIN role
             .antMatchers(HttpMethod.GET, "/user/all").hasRole(roleAdmin)
             .antMatchers(HttpMethod.PUT, "/user/admin/**").hasRole(roleAdmin)
+            .antMatchers(HttpMethod.DELETE, "/user/**").hasRole(roleAdmin)
             .anyRequest().authenticated()                                                 // permit any requests if its authenticated
             .and().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint())
             .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler())

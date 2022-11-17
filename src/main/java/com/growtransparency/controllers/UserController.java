@@ -98,4 +98,21 @@ public class UserController {
 
     return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
+
+  @DeleteMapping("/{id}")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "User deleted", content = @Content),
+        @ApiResponse(responseCode = "403", description = "User authenticated but not admin", content = @Content),
+        @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
+    })
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        var optional = userRepository.findById(id);
+
+        if (optional.isPresent()) {
+            userRepository.deleteById(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
 }
